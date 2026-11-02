@@ -1,855 +1,339 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Healthcare Heroes — Living with Pain Edition</title>
-  <meta name="description" content="A peer-to-peer health movement in Weymouth & Portland. One email a month. One message worth sharing.">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
-  <style>
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
-    :root {
-      --terracotta: #C4622D;
-      --terracotta-deep: #A34E22;
-      --terracotta-light: #E08558;
-      --terracotta-pale: #F5DDD0;
-      --terracotta-frost: #FDF7F4;
-      --sage: #6B8F71;
-      --sage-dark: #4A6B50;
-      --sage-pale: #D6E8D8;
-      --warm-dark: #1C1410;
-      --warm-mid: #3D2B1F;
-      --warm-ink: #2E1F14;
-      --parchment: #FBF6EF;
-      --border: #E8D5C4;
-      --white: #FFFCF9;
-      --whatsapp: #25D366;
-    }
-
-    html { scroll-behavior: smooth; }
-
-    body {
-      font-family: 'Outfit', system-ui, sans-serif;
-      background: var(--white);
-      color: var(--warm-ink);
-      font-size: 17px;
-      line-height: 1.75;
-    }
-
-    /* ── HERO ── */
-    .hero {
-      min-height: 100vh;
-      background: var(--warm-dark);
-      position: relative;
-      overflow: hidden;
-      display: flex;
-      flex-direction: column;
-      justify-content: flex-end;
-      padding: 0 0 5rem;
-    }
-
-    .hero-bg { position: absolute; inset: 0; pointer-events: none; }
-    .hero-bg svg { position: absolute; inset: 0; width: 100%; height: 100%; }
-
-    .hero-inner {
-      position: relative;
-      z-index: 2;
-      max-width: 700px;
-      margin: 0 auto;
-      padding: 0 2.5rem;
-      width: 100%;
-      animation: fadeUp 1s ease both;
-    }
-
-    .edition-tag {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.6rem;
-      font-size: 0.72rem;
-      font-weight: 500;
-      letter-spacing: 0.18em;
-      text-transform: uppercase;
-      color: var(--terracotta-light);
-      margin-bottom: 2.25rem;
-    }
-
-    .edition-tag::before {
-      content: '';
-      display: block;
-      width: 28px;
-      height: 1px;
-      background: var(--terracotta-light);
-    }
-
-    .hero h1 {
-      font-family: 'Playfair Display', Georgia, serif;
-      font-size: clamp(3rem, 8.5vw, 6.2rem);
-      font-weight: 400;
-      line-height: 0.95;
-      margin-bottom: 2rem;
-      color: var(--white);
-    }
-
-    .hero h1 em { font-style: italic; color: var(--terracotta-light); }
-
-    .hero-tagline {
-      font-size: clamp(1rem, 2.2vw, 1.18rem);
-      font-weight: 300;
-      color: rgba(251,246,239,0.6);
-      margin-bottom: 3rem;
-      max-width: 480px;
-      line-height: 1.65;
-    }
-
-    .hero-cta-group { display: flex; flex-wrap: wrap; gap: 1rem; align-items: center; }
-
-    .btn-primary {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.5rem;
-      background: var(--terracotta);
-      color: white;
-      font-family: 'Outfit', sans-serif;
-      font-size: 0.95rem;
-      font-weight: 500;
-      padding: 0.85rem 1.85rem;
-      border-radius: 100px;
-      text-decoration: none;
-      transition: background 0.2s, transform 0.15s, box-shadow 0.2s;
-      border: none;
-      cursor: pointer;
-    }
-
-    .btn-primary:hover { background: var(--terracotta-deep); transform: translateY(-2px); box-shadow: 0 8px 24px rgba(196,98,45,0.4); }
-
-    .btn-ghost {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.4rem;
-      color: rgba(251,246,239,0.4);
-      font-size: 0.9rem;
-      text-decoration: none;
-      background: none;
-      border: none;
-      cursor: pointer;
-      padding: 0.85rem 0;
-      transition: color 0.2s;
-      font-family: 'Outfit', sans-serif;
-    }
-
-    .btn-ghost:hover { color: var(--terracotta-light); }
-
-    /* ── TICKER ── */
-    .ticker {
-      background: var(--warm-mid);
-      color: white;
-      padding: 1.5rem 2rem;
-      animation: fadeUp 1s ease 0.25s both;
-    }
-
-    .ticker-inner {
-      max-width: 700px;
-      margin: 0 auto;
-      display: flex;
-      flex-wrap: wrap;
-      align-items: center;
-      gap: 1.5rem;
-    }
-
-    .ticker-stat { display: flex; align-items: baseline; gap: 0.5rem; }
-
-    .ticker-num {
-      font-family: 'Playfair Display', serif;
-      font-size: 2.6rem;
-      line-height: 1;
-      color: var(--terracotta-light);
-    }
-
-    .ticker-label { font-size: 0.88rem; font-weight: 300; color: rgba(251,246,239,0.6); max-width: 220px; }
-    .ticker-divider { width: 1px; height: 40px; background: rgba(255,255,255,0.12); }
-    .progress-wrap { flex: 1; min-width: 200px; }
-
-    .progress-track {
-      background: rgba(255,255,255,0.15);
-      border-radius: 99px;
-      height: 6px;
-      overflow: hidden;
-      margin-bottom: 0.4rem;
-    }
-
-    .progress-fill {
-      height: 100%;
-      background: var(--terracotta-light);
-      border-radius: 99px;
-      width: 0%;
-      transition: width 1.8s cubic-bezier(0.22, 1, 0.36, 1);
-    }
-
-    .progress-meta { font-size: 0.75rem; color: rgba(251,246,239,0.45); }
-
-    /* ── SECTIONS ── */
-    .section { padding: 5.5rem 2.5rem; }
-    .section-inner { max-width: 640px; margin: 0 auto; }
-    .section-frost { background: var(--terracotta-frost); }
-    .section-parchment { background: var(--parchment); }
-    .section-sage { background: var(--sage-pale); }
-    .section-dark { background: var(--warm-dark); color: white; }
-
-    .label {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.5rem;
-      font-size: 0.7rem;
-      font-weight: 600;
-      letter-spacing: 0.2em;
-      text-transform: uppercase;
-      color: var(--terracotta);
-      margin-bottom: 1.25rem;
-    }
-
-    .section-dark .label { color: var(--terracotta-light); }
-    .section-sage .label { color: var(--sage-dark); }
-
-    .label::before { content: ''; display: block; width: 20px; height: 1px; background: currentColor; }
-
-    h2 {
-      font-family: 'Playfair Display', Georgia, serif;
-      font-size: clamp(1.9rem, 4vw, 2.75rem);
-      font-weight: 400;
-      line-height: 1.12;
-      margin-bottom: 1.75rem;
-      color: var(--warm-ink);
-    }
-
-    .section-dark h2 { color: white; }
-
-    .rule { width: 36px; height: 2px; background: var(--terracotta); margin-bottom: 2rem; }
-    .section-dark .rule { background: var(--terracotta-light); }
-    .section-sage .rule { background: var(--sage-dark); }
-
-    p { margin-bottom: 1.25rem; }
-    p:last-child { margin-bottom: 0; }
-    .section-dark p { color: rgba(251,246,239,0.72); }
-
-    /* ── CALLOUT ── */
-    .callout {
-      border-left: 3px solid var(--terracotta);
-      padding: 1.25rem 1.5rem;
-      background: white;
-      border-radius: 0 8px 8px 0;
-      margin: 2.25rem 0;
-      box-shadow: 0 2px 16px rgba(196,98,45,0.08);
-    }
-
-    .callout strong {
-      display: block;
-      font-size: 0.7rem;
-      font-weight: 600;
-      letter-spacing: 0.15em;
-      text-transform: uppercase;
-      color: var(--terracotta);
-      margin-bottom: 0.5rem;
-    }
-
-    .callout p { font-size: 1rem; color: var(--warm-mid); font-style: italic; margin: 0; line-height: 1.65; }
-
-    .callout-sage {
-      border-left-color: var(--sage);
-    }
-
-    .callout-sage strong { color: var(--sage-dark); }
-
-    /* ── QUOTE BLOCK ── */
-    .quote-block {
-      background: var(--terracotta-pale);
-      border-radius: 12px;
-      padding: 2rem 2.25rem;
-      margin: 2.25rem 0;
-      position: relative;
-    }
-
-    .quote-block::before {
-      content: '"';
-      position: absolute;
-      top: -0.8rem;
-      left: 1.5rem;
-      font-family: 'Playfair Display', serif;
-      font-size: 6rem;
-      color: var(--terracotta);
-      opacity: 0.2;
-      line-height: 1;
-    }
-
-    .quote-block p { font-family: 'Playfair Display', serif; font-style: italic; font-size: 1.12rem; color: var(--warm-mid); line-height: 1.7; margin: 0; }
-    .quote-block cite { display: block; margin-top: 0.75rem; font-family: 'Outfit', sans-serif; font-size: 0.82rem; color: var(--terracotta-deep); font-style: normal; font-weight: 500; }
-
-    /* ── SCRIPT CARD ── */
-    .script-card {
-      background: var(--warm-mid);
-      color: white;
-      border-radius: 12px;
-      padding: 2.25rem;
-      margin: 2.25rem 0;
-      position: relative;
-      overflow: hidden;
-    }
-
-    .script-card::before {
-      content: '"';
-      position: absolute;
-      top: -0.5rem;
-      left: 1.5rem;
-      font-family: 'Playfair Display', serif;
-      font-size: 8rem;
-      color: var(--terracotta-light);
-      opacity: 0.18;
-      line-height: 1;
-      pointer-events: none;
-    }
-
-    .script-label {
-      font-size: 0.68rem;
-      font-weight: 600;
-      letter-spacing: 0.2em;
-      text-transform: uppercase;
-      color: var(--terracotta-light);
-      display: block;
-      margin-bottom: 1rem;
-      position: relative;
-      z-index: 1;
-    }
-
-    .script-card p { font-size: 1.1rem; font-weight: 300; line-height: 1.7; color: rgba(251,246,239,0.9); position: relative; z-index: 1; margin-bottom: 1.25rem; }
-
-    .copy-btn {
-      position: relative;
-      z-index: 1;
-      display: inline-flex;
-      align-items: center;
-      gap: 0.4rem;
-      font-size: 0.8rem;
-      font-weight: 500;
-      color: var(--terracotta-light);
-      background: rgba(196,98,45,0.18);
-      border: 1px solid rgba(224,133,88,0.35);
-      border-radius: 100px;
-      padding: 0.4rem 1rem;
-      cursor: pointer;
-      font-family: 'Outfit', sans-serif;
-      transition: all 0.2s;
-    }
-
-    .copy-btn:hover { background: rgba(196,98,45,0.35); }
-
-    /* ── LINK CARDS ── */
-    .link-card {
-      display: flex;
-      align-items: center;
-      gap: 1.25rem;
-      background: white;
-      border: 1.5px solid var(--border);
-      border-radius: 12px;
-      padding: 1.4rem 1.5rem;
-      text-decoration: none;
-      color: var(--warm-ink);
-      margin: 1.25rem 0;
-      transition: box-shadow 0.2s, transform 0.15s;
-      box-shadow: 0 2px 8px rgba(196,98,45,0.06);
-    }
-
-    .link-card:hover { box-shadow: 0 6px 24px rgba(196,98,45,0.14); transform: translateY(-2px); }
-
-    .link-card-icon {
-      width: 48px;
-      height: 48px;
-      background: var(--terracotta-pale);
-      border-radius: 10px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 1.4rem;
-      flex-shrink: 0;
-    }
-
-    .link-card-icon.sage-icon { background: var(--sage-pale); }
-
-    .link-card-text { flex: 1; }
-    .link-card-title { font-weight: 600; font-size: 0.95rem; color: var(--terracotta-deep); margin-bottom: 0.18rem; display: block; }
-    .link-card-desc { font-size: 0.83rem; color: var(--warm-mid); margin-bottom: 0.18rem; }
-    .link-card-url { font-size: 0.76rem; color: rgba(61,43,31,0.45); }
-    .link-card-arrow { color: var(--terracotta); font-size: 1.2rem; flex-shrink: 0; }
-
-    /* ── STEP CARDS ── */
-    .step-grid { display: grid; gap: 1.25rem; margin: 2.25rem 0; }
-
-    .step-card {
-      background: white;
-      border: 1.5px solid var(--border);
-      border-radius: 12px;
-      padding: 1.6rem;
-      box-shadow: 0 2px 8px rgba(196,98,45,0.05);
-    }
-
-    .step-card-header { display: flex; align-items: flex-start; gap: 1rem; margin-bottom: 0.75rem; }
-
-    .step-icon {
-      width: 42px;
-      height: 42px;
-      background: var(--terracotta-pale);
-      border-radius: 8px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 1.2rem;
-      flex-shrink: 0;
-    }
-
-    .step-title { font-weight: 600; font-size: 1rem; color: var(--warm-ink); line-height: 1.3; padding-top: 0.25rem; }
-    .step-card p { font-size: 0.92rem; color: var(--warm-mid); margin-bottom: 0.5rem; line-height: 1.6; }
-    .step-card ul { list-style: none; padding: 0; }
-    .step-card ul li { font-size: 0.88rem; color: var(--warm-mid); padding: 0.2rem 0 0.2rem 1.4rem; position: relative; }
-    .step-card ul li::before { content: '→'; position: absolute; left: 0; color: var(--terracotta); font-size: 0.8rem; }
-
-    /* ── SHARE / SHARE GRID ── */
-    .share-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0.9rem; margin-top: 2rem; }
-
-    .share-btn {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 0.55rem;
-      padding: 0.9rem 1.25rem;
-      border-radius: 10px;
-      font-family: 'Outfit', sans-serif;
-      font-size: 0.92rem;
-      font-weight: 500;
-      text-decoration: none;
-      cursor: pointer;
-      border: none;
-      transition: transform 0.15s, box-shadow 0.2s;
-    }
-
-    .share-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(0,0,0,0.13); }
-    .btn-whatsapp { background: var(--whatsapp); color: white; }
-    .btn-copy-link { background: white; color: var(--warm-ink); border: 1.5px solid var(--border); }
-    .btn-email-share { background: var(--terracotta-pale); color: var(--terracotta-deep); border: 1.5px solid var(--border); grid-column: span 2; }
-
-    /* ── URGENT BOX ── */
-    .urgent-box {
-      background: #FFF5F0;
-      border: 1.5px solid #F4B8A0;
-      border-radius: 12px;
-      padding: 1.75rem 2rem;
-      margin-top: 2rem;
-    }
-
-    .urgent-box strong {
-      display: block;
-      font-size: 0.72rem;
-      font-weight: 600;
-      letter-spacing: 0.15em;
-      text-transform: uppercase;
-      color: #B84A20;
-      margin-bottom: 0.75rem;
-    }
-
-    .urgent-box ul { list-style: none; padding: 0; }
-    .urgent-box ul li { font-size: 0.9rem; color: var(--warm-mid); padding: 0.22rem 0 0.22rem 1.3rem; position: relative; }
-    .urgent-box ul li::before { content: '·'; position: absolute; left: 0.3rem; color: #B84A20; font-size: 1.2rem; line-height: 0.9; }
-    .urgent-box .urgent-footer { margin-top: 0.75rem; font-size: 0.88rem; font-weight: 500; color: #B84A20; }
-
-    /* ── JOIN ── */
-    .join-section {
-      background: var(--warm-mid);
-      padding: 6rem 2.5rem;
-      text-align: center;
-      position: relative;
-      overflow: hidden;
-    }
-
-    .join-section::before {
-      content: '';
-      position: absolute;
-      top: -30%;
-      left: -10%;
-      width: 500px;
-      height: 500px;
-      border-radius: 50%;
-      background: radial-gradient(circle, rgba(196,98,45,0.2) 0%, transparent 70%);
-      pointer-events: none;
-    }
-
-    .join-inner { max-width: 520px; margin: 0 auto; position: relative; z-index: 1; }
-    .join-section .label { color: rgba(251,246,239,0.45); justify-content: center; }
-    .join-section .label::before { display: none; }
-    .join-section h2 { color: white; }
-    .join-section p { color: rgba(251,246,239,0.68); margin-bottom: 2.25rem; }
-
-    .mailto-btn {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.6rem;
-      background: var(--terracotta);
-      color: white;
-      font-family: 'Playfair Display', serif;
-      font-size: 1.2rem;
-      font-weight: 400;
-      padding: 1.1rem 2.5rem;
-      border-radius: 100px;
-      text-decoration: none;
-      transition: background 0.2s, transform 0.15s, box-shadow 0.2s;
-      margin-bottom: 1rem;
-    }
-
-    .mailto-btn:hover { background: var(--terracotta-deep); transform: translateY(-2px); box-shadow: 0 8px 28px rgba(196,98,45,0.4); }
-
-    .join-small { font-size: 0.8rem; color: rgba(251,246,239,0.32) !important; font-style: italic; margin-top: 1.5rem !important; }
-
-    /* ── FOOTER ── */
-    footer {
-      background: var(--warm-dark);
-      border-top: 1px solid rgba(251,246,239,0.06);
-      padding: 2rem 2.5rem;
-      text-align: center;
-      font-size: 0.78rem;
-      color: rgba(251,246,239,0.22);
-      font-style: italic;
-    }
-
-    footer a { color: rgba(251,246,239,0.22); text-decoration: underline; }
-
-    /* ── ANIMATIONS ── */
-    @keyframes fadeUp {
-      from { opacity: 0; transform: translateY(28px); }
-      to   { opacity: 1; transform: translateY(0); }
-    }
-
-    .reveal { opacity: 0; transform: translateY(22px); transition: opacity 0.75s ease, transform 0.75s ease; }
-    .reveal.visible { opacity: 1; transform: none; }
-
-    @media (max-width: 600px) {
-      .hero { padding-bottom: 4rem; }
-      .hero-inner { padding: 0 1.5rem; }
-      .section { padding: 4rem 1.5rem; }
-      .join-section { padding: 4.5rem 1.5rem; }
-      .ticker-inner { flex-direction: column; gap: 1rem; }
-      .ticker-divider { display: none; }
-      .share-grid { grid-template-columns: 1fr; }
-      .btn-email-share { grid-column: span 1; }
-    }
-  </style>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Healthcare Heroes · Living with Cancer Edition</title>
+<meta name="description" content="A peer-to-peer health movement in Weymouth and Portland. One email a month. One message worth sharing.">
+<meta property="og:title" content="You don't have to face cancer alone">
+<meta property="og:description" content="A free, drop-in Cancer Support Group in Weymouth, for anyone affected by cancer, carers and family too.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,700;1,9..144,500&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+
+<!-- Plausible: add healthcare-heroes.org as a site in Plausible, then create goals for
+     "Email Click", "Passed It On", "Share", "Share Landing" and "Script Copied". -->
+<script defer data-domain="healthcare-heroes.org" src="https://plausible.io/js/script.js"></script>
+<script>window.plausible = window.plausible || function () { (window.plausible.q = window.plausible.q || []).push(arguments) }</script>
+
+<style>
+  /* ===== This month's palette. Change these five to recolour the edition. ===== */
+  :root {
+    --ink: #2a1f33;          /* main text */
+    --deep: #4a2c5e;         /* hero + headings (Heather) */
+    --accent: #c9785a;       /* buttons, highlights (warm clay) */
+    --soft: #f4eef6;         /* tinted panels */
+    --paper: #fbf8f4;        /* page background */
+    --line: rgba(74, 44, 94, 0.14);
+    --muted: #5d5266;
+    --radius: 18px;
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    margin: 0; background: var(--paper); color: var(--ink);
+    font-family: Inter, system-ui, -apple-system, Segoe UI, sans-serif;
+    font-size: 17px; line-height: 1.65;
+  }
+  a { color: var(--deep); }
+  .wrap { max-width: 720px; margin: 0 auto; padding: 0 20px; }
+  h1, h2, h3 { font-family: Fraunces, Georgia, serif; line-height: 1.15; margin: 0 0 14px; }
+  h2 { font-size: clamp(26px, 5vw, 34px); color: var(--deep); }
+  h3 { font-size: 20px; color: var(--deep); }
+  .eyebrow { text-transform: uppercase; letter-spacing: .12em; font-size: 12px; font-weight: 600; color: var(--accent); margin-bottom: 10px; }
+  section { padding: 56px 0; border-bottom: 1px solid var(--line); }
+  section:last-of-type { border-bottom: 0; }
+
+  /* Hero */
+  .hero { background: var(--deep); color: #fff; padding: 72px 0 64px; border: 0; }
+  .hero .eyebrow { color: #f0c2ad; }
+  .hero h1 { font-size: clamp(38px, 8vw, 58px); font-weight: 700; }
+  .hero h1 em { font-style: italic; font-weight: 500; color: #f0c2ad; }
+  .hero p.lead { font-size: 19px; max-width: 34em; opacity: .92; }
+  .tag { font-family: Fraunces, Georgia, serif; font-style: italic; opacity: .75; margin-top: 22px; }
+  .btns { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 26px; }
+  .btn {
+    display: inline-flex; align-items: center; gap: 8px; text-decoration: none; cursor: pointer;
+    font: 600 16px Inter, sans-serif; padding: 13px 22px; border-radius: 999px; border: 2px solid transparent;
+    background: var(--accent); color: #fff; transition: transform .15s ease, box-shadow .15s ease;
+  }
+  .btn:hover { transform: translateY(-1px); box-shadow: 0 6px 18px rgba(0,0,0,.12); }
+  .btn:focus-visible { outline: 3px solid #f0c2ad; outline-offset: 3px; }
+  .btn.ghost { background: transparent; border-color: rgba(255,255,255,.55); color: #fff; }
+  .btn.quiet { background: #fff; color: var(--deep); border-color: var(--line); }
+
+  /* Thank-you banner for "I passed it on" */
+  .thanks { display: none; background: #e9f5ec; color: #1f4d2b; border-bottom: 1px solid #cfe6d5; padding: 16px 0; font-weight: 500; }
+  .thanks.show { display: block; }
+
+  /* Cards */
+  .card { background: #fff; border: 1px solid var(--line); border-radius: var(--radius); padding: 24px; margin: 22px 0; }
+  .card.tint { background: var(--soft); border-color: transparent; }
+  .session { display: grid; gap: 14px; }
+  .dates { display: flex; flex-wrap: wrap; gap: 10px; }
+  .date {
+    background: var(--deep); color: #fff; border-radius: 14px; padding: 12px 18px; text-align: center; min-width: 120px;
+    font-family: Fraunces, Georgia, serif;
+  }
+  .date b { display: block; font-size: 28px; line-height: 1; }
+  .date span { font-size: 14px; opacity: .85; font-family: Inter, sans-serif; }
+  .meta { color: var(--muted); font-size: 15px; }
+  .linkcard {
+    display: block; text-decoration: none; color: var(--ink); background: #fff; border: 2px solid var(--deep);
+    border-radius: var(--radius); padding: 20px 22px; margin: 22px 0; transition: background .15s ease;
+  }
+  .linkcard:hover { background: var(--soft); }
+  .linkcard strong { font-family: Fraunces, Georgia, serif; font-size: 21px; color: var(--deep); display: block; }
+  .linkcard small { color: var(--muted); }
+  .say { font-family: Fraunces, Georgia, serif; font-size: 20px; font-style: italic; line-height: 1.5; margin: 0 0 16px; color: var(--deep); }
+  ul.clean { padding-left: 20px; margin: 10px 0 0; }
+  ul.clean li { margin: 6px 0; }
+  .grid3 { display: grid; gap: 14px; grid-template-columns: 1fr; }
+  @media (min-width: 640px) { .grid3 { grid-template-columns: repeat(3, 1fr); } }
+  .grid3 .card { margin: 0; }
+  .grid3 .icon { font-size: 26px; }
+  .urgent { border-left: 5px solid var(--accent); }
+  .contact { font-size: 15px; }
+  .contact div { margin: 4px 0; }
+  .share-row { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 18px; }
+  .note { font-size: 14px; color: var(--muted); margin-top: 10px; }
+  footer { background: var(--soft); padding: 32px 0 44px; font-size: 14px; color: var(--muted); }
+
+  /* Gentle reveal */
+  .reveal { opacity: 0; transform: translateY(12px); transition: opacity .6s ease, transform .6s ease; }
+  .reveal.in { opacity: 1; transform: none; }
+  @media (prefers-reduced-motion: reduce) { .reveal { opacity: 1; transform: none; transition: none; } html { scroll-behavior: auto; } }
+</style>
 </head>
 <body>
 
-  <!-- ══ HERO ══ -->
-  <section class="hero">
-    <div class="hero-bg">
-      <svg viewBox="0 0 1200 700" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
-        <defs>
-          <radialGradient id="g1" cx="80%" cy="20%" r="55%">
-            <stop offset="0%" stop-color="#C4622D" stop-opacity="0.22"/>
-            <stop offset="100%" stop-color="#1C1410" stop-opacity="0"/>
-          </radialGradient>
-          <radialGradient id="g2" cx="5%" cy="85%" r="45%">
-            <stop offset="0%" stop-color="#3D2B1F" stop-opacity="0.6"/>
-            <stop offset="100%" stop-color="#1C1410" stop-opacity="0"/>
-          </radialGradient>
-        </defs>
-        <rect width="1200" height="700" fill="#1C1410"/>
-        <rect width="1200" height="700" fill="url(#g1)"/>
-        <rect width="1200" height="700" fill="url(#g2)"/>
-        <g opacity="0.06" stroke="#E08558" stroke-width="1" fill="none">
-          <circle cx="1100" cy="80" r="160"/>
-          <circle cx="1100" cy="80" r="240"/>
-          <circle cx="1100" cy="80" r="330"/>
-          <circle cx="1100" cy="80" r="430"/>
-          <circle cx="1100" cy="80" r="540"/>
-        </g>
-        <g opacity="0.04" stroke="#6B8F71" stroke-width="1.5" fill="none">
-          <line x1="0" y1="350" x2="1200" y2="350"/>
-          <line x1="0" y1="200" x2="1200" y2="200"/>
-          <line x1="0" y1="500" x2="1200" y2="500"/>
-        </g>
-      </svg>
-    </div>
-    <div class="hero-inner">
-      <span class="edition-tag">This Month · Weymouth &amp; Portland</span>
-      <h1>Living<br>with <em>Pain.</em></h1>
-      <p class="hero-tagline">Pain is real. And there may be more you can do. This month, we're sharing the science — and passing it on.</p>
-      <div class="hero-cta-group">
-        <a href="#join" class="btn-primary">🧡 Become a Hero</a>
-        <a href="#mission" class="btn-ghost">This month's mission ↓</a>
-      </div>
-    </div>
-  </section>
+<div class="thanks" id="thanks" role="status" aria-live="polite">
+  <div class="wrap">💜 Thank you. That has been counted, anonymously. Passing it on is exactly what Healthcare Heroes is for.</div>
+</div>
 
-  <!-- ══ TICKER ══ -->
-  <div class="ticker">
-    <div class="ticker-inner">
-      <div class="ticker-stat">
-        <span class="ticker-num">238</span>
-        <span class="ticker-label">people across Weymouth &amp; Portland already pledged</span>
-      </div>
-      <div class="ticker-divider"></div>
-      <div class="progress-wrap">
-        <div class="progress-track">
-          <div class="progress-fill" id="progressBar"></div>
-        </div>
-        <p class="progress-meta">Help us reach <strong>300 Heroes by summer</strong></p>
-      </div>
+<header class="hero">
+  <div class="wrap">
+    <div class="eyebrow">This month · Weymouth &amp; Portland</div>
+    <h1>You don't have to face cancer <em>alone.</em></h1>
+    <p class="lead">There is a free, drop-in Cancer Support Group in Weymouth, for anyone affected by cancer. This month, we're asking you to help one person find it.</p>
+    <div class="btns">
+      <a class="btn" href="#mission">This month's mission ↓</a>
+      <a class="btn ghost" href="#join">🧡 Become a Hero</a>
     </div>
+    <p class="tag">Not all heroes wear capes. Or stethoscopes.</p>
   </div>
+</header>
 
-  <!-- ══ ABOUT ══ -->
-  <section class="section reveal" id="about">
-    <div class="section-inner">
-      <span class="label">What is Healthcare Heroes?</span>
+<main>
+  <section class="reveal">
+    <div class="wrap">
+      <div class="eyebrow">What is Healthcare Heroes?</div>
       <h2>One email. One message worth sharing.</h2>
-      <div class="rule"></div>
-      <p>Healthcare Heroes is a peer-to-peer health movement in Weymouth &amp; Portland. Every month, a small group of local people get one simple, human message about health and wellbeing — and share it with the people they care about.</p>
-      <p>No jargon. No appointments. No pressure. Just a small kindness, passed from one person to another.</p>
-      <div class="callout">
-        <strong>Did you know?</strong>
-        <p>People are far more likely to explore new ideas when someone they trust mentions them — not when they see a poster. One honest conversation is worth more than a hundred campaigns.</p>
+      <p>Healthcare Heroes is a peer-to-peer health movement in Weymouth and Portland. Each month, local people get one simple message about health and wellbeing, and pass it on to someone they care about.</p>
+      <p>People are far more likely to try something new when someone they trust mentions it. One honest conversation can do what a poster can't.</p>
+    </div>
+  </section>
+
+  <section class="reveal">
+    <div class="wrap">
+      <div class="eyebrow">This month we're looking at</div>
+      <h2>Living with cancer, and the people around it.</h2>
+      <p>Cancer doesn't only affect the person with the diagnosis. Partners, children, friends and carers carry a lot too, often quietly. And the months after a diagnosis can feel lonely, even when people are trying to help.</p>
+      <p>Since September, a Cancer Support Group has been meeting in Weymouth. It's for anyone affected by cancer: people living with it, people who have finished treatment, and the people who love and care for them.</p>
+
+      <div class="card tint session">
+        <h3>Cancer Support Group</h3>
+        <div class="dates">
+          <div class="date"><b>9</b><span>Mon · November</span></div>
+          <div class="date"><b>14</b><span>Mon · December</span></div>
+        </div>
+        <div>
+          <strong>10am to 12pm</strong> at The Dry Dock, 6-7 St Thomas Street, Weymouth, DT4 8EW.
+          <div class="meta">Drop in any time in that window. No booking, no need to stay the whole two hours, and no need to have been before. Coffee, company, and sharing only if you want to.</div>
+          <div class="meta">It meets on the second Monday of every month. <a href="https://weymouthandportlandpcn.co.uk/livingwithcancer?from=heroes-nov#connect">See dates up to March</a>.</div>
+        </div>
+      </div>
+
+      <p>The group is supported by <strong>Jo Gowing</strong>, Cancer Care Coordinator for Weymouth and Portland. Jo's role is non-clinical. She helps people with the practical and emotional side of cancer: what happens next, what support is out there, and feeling less alone with it. You don't need a referral to contact her.</p>
+    </div>
+  </section>
+
+  <section id="mission" class="reveal">
+    <div class="wrap">
+      <div class="eyebrow">This month's mission</div>
+      <h2>Tell one person the group exists.</h2>
+      <p>Think of one person. Someone living with cancer, someone caring for a person who is, or someone who has mentioned a diagnosis in the family. They may never have heard of this group. You could be how they find out.</p>
+
+      <a class="linkcard" href="https://weymouthandportlandpcn.co.uk/livingwithcancer?from=heroes-nov" data-track="Outbound PCN">
+        <strong>💜 Living with Cancer</strong>
+        The group, Jo's contact details, money help and trusted support, all on one page.
+        <br><small>weymouthandportlandpcn.co.uk/livingwithcancer →</small>
+      </a>
+
+      <div class="card">
+        <div class="eyebrow">Try saying this</div>
+        <p class="say" id="script">"I saw this and thought of you. There's a free cancer support group in Weymouth, at The Dry Dock on the second Monday of the month. You can just drop in, and it's for carers and family too. No pressure, I just wanted you to know it's there."</p>
+        <button class="btn quiet" type="button" id="copyScript">📋 Copy these words</button>
       </div>
     </div>
   </section>
 
-  <!-- ══ THE SCIENCE ══ -->
-  <section class="section section-frost reveal" id="mission">
-    <div class="section-inner">
-      <span class="label">This month we're looking at</span>
-      <h2>Persistent pain — and why the science has changed.</h2>
-      <div class="rule"></div>
-      <p>Living with ongoing pain is exhausting. It can affect your body, your mood, your sleep, and your sense of who you are. If that's where you or someone you care about is right now, this page won't pretend otherwise.</p>
-      <p>But here's what we now know: pain is not only about injury or damage. It's also shaped by how the nervous system responds over time. That means there may be more that can be done — not to dismiss the pain, but to understand it, and gradually turn down its volume.</p>
-
-      <div class="quote-block">
-        <p>Pain is not an accurate measure of tissue damage. It is a signal — and signals can be turned down.</p>
+  <section class="reveal">
+    <div class="wrap">
+      <div class="eyebrow">What they'll find</div>
+      <h2>Three kinds of help, all free.</h2>
+      <div class="grid3">
+        <div class="card">
+          <div class="icon">☕</div>
+          <h3>People who understand</h3>
+          <p>The monthly Cancer Support Group, plus a prostate cancer group and national support lines open seven days a week.</p>
+        </div>
+        <div class="card">
+          <div class="icon">📞</div>
+          <h3>Someone to call</h3>
+          <p>Jo, the local Cancer Care Coordinator. If you're not sure where to start, start with Jo.</p>
+        </div>
+        <div class="card">
+          <div class="icon">💷</div>
+          <h3>Help with money</h3>
+          <p>Cancer can bring costs nobody plans for. There is local help with benefits, grants and financial worries.</p>
+        </div>
       </div>
 
-      <p>The people best placed to share this are often not professionals — they're people like you. A neighbour, a parent, a friend. Someone who notices. Someone who passes something useful along at the right moment.</p>
-      <p>That someone could be you.</p>
-    </div>
-  </section>
-
-  <!-- ══ MISSION / THE PAGE ══ -->
-  <section class="section reveal" id="mission-action">
-    <div class="section-inner">
-      <span class="label">This month's mission</span>
-      <h2>Share one page with one person.</h2>
-      <div class="rule"></div>
-      <p>Our PCN has a dedicated Living with Pain page — built for exactly this moment. It has free resources, local support, and a gentle starting point for people who are ready to explore something new. No referrals needed. No appointments.</p>
-      <p>Your mission this month: share it with one person who might need it — or who knows someone who might.</p>
-
-      <a href="https://weymouthandportlandpcn.co.uk/livingwithpain" target="_blank" rel="noopener" class="link-card">
-        <div class="link-card-icon">🌿</div>
-        <div class="link-card-text">
-          <span class="link-card-title">Living with Pain</span>
-          <span class="link-card-desc">Resources, local support and practical guidance for persistent pain</span>
-          <span class="link-card-url">weymouthandportlandpcn.co.uk</span>
-        </div>
-        <span class="link-card-arrow">→</span>
-      </a>
-
-      <p>Think of one person right now. Someone who's been struggling quietly. Someone who mentioned their pain in passing. Someone who might just need to know there's something new to try.</p>
-
-      <div class="script-card">
-        <span class="script-label">Try saying this</span>
-        <p>"I saw something about pain that made me think of you. Our local NHS has a free page with resources and a different way of looking at it — no referral needed. Thought it might be worth a look."</p>
-        <button class="copy-btn" onclick="copySaying(this)">📋 Copy these words</button>
+      <div class="card tint contact">
+        <h3>Contact Jo Gowing, Cancer Care Coordinator</h3>
+        <div>📞 <a href="tel:01305234090">01305 234090</a> ext 216</div>
+        <div>✉️ <a href="mailto:johanna.gowing@dorsetgp.nhs.uk">johanna.gowing@dorsetgp.nhs.uk</a></div>
+        <div class="meta">Monday to Wednesday 8am to 5pm · Thursday 8am to 12.30pm</div>
       </div>
-    </div>
-  </section>
 
-  <!-- ══ WHAT'S ON THE PAGE ══ -->
-  <section class="section section-parchment reveal">
-    <div class="section-inner">
-      <span class="label">What they'll find</span>
-      <h2>Three steps, all free, no referral needed.</h2>
-      <div class="rule"></div>
-      <p>The Living with Pain page is built around three ideas. Here's what the person you share it with will discover.</p>
-
-      <div class="step-grid">
-
-        <div class="step-card">
-          <div class="step-card-header">
-            <div class="step-icon">🔬</div>
-            <div class="step-title">Step 1 — Understand your pain</div>
-          </div>
-          <p>Short videos and talks that explain why pain persists — and why that's actually good news. Includes the world's most-shared pain science animation and a celebrated TED Talk.</p>
-          <ul>
-            <li>Tame the Beast — Professor Lorimer Moseley (5 min)</li>
-            <li>Why Things Hurt — TED Talk (14 min)</li>
-            <li>Flippin' Pain — free podcast &amp; animation series</li>
-          </ul>
-        </div>
-
-        <div class="step-card">
-          <div class="step-card-header">
-            <div class="step-icon">🌱</div>
-            <div class="step-title">Step 2 — Relate to it differently</div>
-          </div>
-          <p>Acceptance and Commitment Therapy (ACT) is recommended by NICE for chronic pain. These free resources help people change their relationship with pain — without giving in to it.</p>
-          <ul>
-            <li>ACT for Pain — free self-management programme</li>
-            <li>Transforming Pain — free guide by Dr Russ Harris</li>
-            <li>Leaves on a Stream — gentle guided exercise (7 min)</li>
-          </ul>
-        </div>
-
-        <div class="step-card">
-          <div class="step-card-header">
-            <div class="step-icon">🚶</div>
-            <div class="step-title">Step 3 — Live well alongside it</div>
-          </div>
-          <p>Practical guidance on pacing, gentle movement, managing flare-ups, and sleep. Recovery isn't always about pain disappearing — it's about doing more of what matters.</p>
-          <ul>
-            <li>Break the boom-and-bust cycle with pacing</li>
-            <li>Gentle yoga and Tai Chi — recommended by NICE</li>
-            <li>Retrain Pain — free videos and exercises</li>
-          </ul>
-        </div>
-
-      </div>
-    </div>
-  </section>
-
-  <!-- ══ LOCAL SUPPORT ══ -->
-  <section class="section section-sage reveal">
-    <div class="section-inner">
-      <span class="label">In Weymouth &amp; Portland</span>
-      <h2>Local support, all free.</h2>
-      <div class="rule rule-sage" style="background:var(--sage-dark)"></div>
-      <p>For people who want more than resources — here's what's available locally. All free, most self-refer.</p>
-
-      <a href="https://dorsetpain.org.uk" target="_blank" rel="noopener" class="link-card">
-        <div class="link-card-icon sage-icon">🏥</div>
-        <div class="link-card-text">
-          <span class="link-card-title" style="color:var(--sage-dark)">Dorset Pain Management Service</span>
-          <span class="link-card-desc">Videos, audio guides, support groups, online platform and the Four Pillars programme</span>
-          <span class="link-card-url">dorsetpain.org.uk · Free</span>
-        </div>
-        <span class="link-card-arrow" style="color:var(--sage-dark)">→</span>
-      </a>
-
-      <a href="https://www.helpandcare.org.uk" target="_blank" rel="noopener" class="link-card">
-        <div class="link-card-icon sage-icon">🤝</div>
-        <div class="link-card-text">
-          <span class="link-card-title" style="color:var(--sage-dark)">HOPE Self-Management Course</span>
-          <span class="link-card-desc">A free course for adults living with long-term conditions — confidence, coping, day-to-day life</span>
-          <span class="link-card-url">helpandcare.org.uk · Free · Dorset-wide</span>
-        </div>
-        <span class="link-card-arrow" style="color:var(--sage-dark)">→</span>
-      </a>
-
-      <a href="https://www.steps2wellbeing.co.uk" target="_blank" rel="noopener" class="link-card">
-        <div class="link-card-icon sage-icon">💬</div>
-        <div class="link-card-text">
-          <span class="link-card-title" style="color:var(--sage-dark)">Steps 2 Wellbeing</span>
-          <span class="link-card-desc">Free NHS talking therapies for pain affecting mood and daily life — self-refer, no GP needed</span>
-          <span class="link-card-url">steps2wellbeing.co.uk · Free · Self-refer</span>
-        </div>
-        <span class="link-card-arrow" style="color:var(--sage-dark)">→</span>
-      </a>
-
-      <a href="https://www.livewelldorset.co.uk" target="_blank" rel="noopener" class="link-card">
-        <div class="link-card-icon sage-icon">🌞</div>
-        <div class="link-card-text">
-          <span class="link-card-title" style="color:var(--sage-dark)">LiveWell Dorset</span>
-          <span class="link-card-desc">Free coaching around movement, food, sleep and general wellbeing — self-refer</span>
-          <span class="link-card-url">livewelldorset.co.uk · Free</span>
-        </div>
-        <span class="link-card-arrow" style="color:var(--sage-dark)">→</span>
-      </a>
-
-      <div class="urgent-box">
-        <strong>When to contact your GP or seek urgent help</strong>
-        <ul>
-          <li>New bladder or bowel problems</li>
-          <li>New weakness in limbs</li>
-          <li>Pain after significant trauma or unexplained weight loss</li>
-          <li>Sudden or significant change in your pain</li>
-          <li>Pain that is stopping you coping day to day</li>
-          <li>If you are struggling emotionally — call NHS 111</li>
+      <div class="card urgent">
+        <h3>When to contact your GP or get urgent help</h3>
+        <ul class="clean">
+          <li>New or unexplained symptoms you are worried about. Don't wait.</li>
+          <li>Symptoms getting worse during or after treatment</li>
+          <li>Side effects affecting daily life</li>
+          <li>If you are struggling emotionally, call NHS 111</li>
         </ul>
-        <p class="urgent-footer">Call 999 or go to A&amp;E if someone is in immediate danger.</p>
+        <p class="note"><strong>Call 999 or go to A&amp;E</strong> if someone is in immediate danger.</p>
       </div>
     </div>
   </section>
 
-  <!-- ══ SHARE ══ -->
-  <section class="section section-dark reveal" id="share">
-    <div class="section-inner">
-      <span class="label">Pass it on</span>
-      <h2>Share this page with someone who'd care.</h2>
-      <div class="rule"></div>
-      <p>The simplest Hero move you can make right now. Send this page to one person. WhatsApp it. Email it. Drop it in a group chat. You never know whose week it might change.</p>
-      <div class="share-grid">
-        <a href="https://wa.me/?text=I%20thought%20this%20might%20be%20useful%20%E2%80%94%20a%20local%20health%20movement%20in%20Weymouth%20%26%20Portland%20about%20living%20with%20persistent%20pain%3A%20https%3A%2F%2Fwww.healthcare-heroes.org" target="_blank" rel="noopener" class="share-btn btn-whatsapp">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
-          WhatsApp
-        </a>
-        <button class="share-btn btn-copy-link" onclick="copyLink(this)">🔗 Copy link</button>
-        <a href="mailto:?subject=Something%20worth%20sharing&body=I%20thought%20you%27d%20find%20this%20useful%20%E2%80%94%20a%20local%20health%20movement%20in%20Weymouth%20%26%20Portland%20about%20living%20with%20persistent%20pain%3A%20https%3A%2F%2Fwww.healthcare-heroes.org" class="share-btn btn-email-share">
-          ✉️ Share by email
-        </a>
+  <section class="reveal">
+    <div class="wrap">
+      <div class="eyebrow">Pass it on</div>
+      <h2>Share this with someone who'd care.</h2>
+      <p>The simplest Hero move there is. WhatsApp it, email it, or drop it in a group chat.</p>
+      <div class="share-row">
+        <a class="btn" id="shareWhatsApp" href="#" target="_blank" rel="noopener">WhatsApp</a>
+        <button class="btn quiet" type="button" id="shareCopy">🔗 Copy link</button>
+        <a class="btn quiet" id="shareEmail" href="#">✉️ Share by email</a>
+      </div>
+
+      <div class="card tint" style="margin-top:32px">
+        <h3>Did you pass it on?</h3>
+        <p>We're deciding in January whether Healthcare Heroes carries on into 2027. If you told someone about the group, tap below. It's anonymous, and it's the only way we'll know this works.</p>
+        <button class="btn" type="button" id="passedOn">💜 I passed it on</button>
       </div>
     </div>
   </section>
 
-  <!-- ══ JOIN ══ -->
-  <section class="join-section reveal" id="join">
-    <div class="join-inner">
-      <span class="label">Join the movement</span>
+  <section id="join" class="reveal">
+    <div class="wrap">
+      <div class="eyebrow">Join the movement</div>
       <h2>Become a Healthcare Hero.</h2>
-      <p>One email a month. Easy to read, easy to share. No spam, ever. Just tap the button below and we'll add you to the list.</p>
-      <a href="mailto:healthcare-heroes@dorsetgp.nhs.uk?subject=I%27d%20like%20to%20join%20Healthcare%20Heroes&body=Hi%2C%0A%0APlease%20add%20me%20to%20the%20Healthcare%20Heroes%20monthly%20email.%0A%0AMy%20name%20is%3A%20%0A%0AThanks" class="mailto-btn">
-        🧡 Add me to Healthcare Heroes
-      </a>
-      <p class="join-small">You're in good company. 238 people across Weymouth &amp; Portland have already pledged to help in small, human ways.</p>
+      <p>One email a month. Easy to read, easy to share. No spam, ever.</p>
+      <a class="btn" href="mailto:healthcare-heroes@dorsetgp.nhs.uk?subject=Add%20me%20to%20Healthcare%20Heroes&amp;body=Hi%2C%20please%20add%20me%20to%20the%20Healthcare%20Heroes%20monthly%20email.">🧡 Add me to Healthcare Heroes</a>
     </div>
   </section>
+</main>
 
-  <footer>
-    Healthcare Heroes — supported by Weymouth &amp; Portland PCN &nbsp;·&nbsp;
-    Living with Pain edition · Developed in partnership with Dorset Pain Management Service &nbsp;·&nbsp;
-    <a href="mailto:healthcare-heroes@dorsetgp.nhs.uk">healthcare-heroes@dorsetgp.nhs.uk</a>
-  </footer>
+<footer>
+  <div class="wrap">
+    Healthcare Heroes · supported by Weymouth &amp; Portland PCN · Living with Cancer edition, November 2026<br>
+    Developed in partnership with Jo Gowing, Cancer Care Coordinator · <a href="mailto:healthcare-heroes@dorsetgp.nhs.uk">healthcare-heroes@dorsetgp.nhs.uk</a>
+  </div>
+</footer>
 
-  <script>
-    window.addEventListener('load', () => {
-      setTimeout(() => {
-        const fill = document.getElementById('progressBar');
-        if (fill) fill.style.width = (238 / 300 * 100) + '%';
-      }, 400);
-    });
+<script>
+(function () {
+  var EDITION = 'nov-2026';
+  var SHARE_URL = 'https://healthcare-heroes.org/?src=share';
+  var SHARE_TEXT = "I thought you might want to know about this. There's a free, drop-in cancer support group in Weymouth, for anyone affected, carers and family too: ";
 
-    const reveals = document.querySelectorAll('.reveal');
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach(e => {
-        if (e.isIntersecting) { e.target.classList.add('visible'); observer.unobserve(e.target); }
-      });
-    }, { threshold: 0.08 });
-    reveals.forEach(r => observer.observe(r));
+  function track(name, props) {
+    try { if (window.plausible) window.plausible(name, props ? { props: props } : undefined); } catch (e) {}
+  }
 
-    function copyLink(btn) {
-      navigator.clipboard.writeText('https://www.healthcare-heroes.org').then(() => {
-        btn.textContent = '✓ Copied!';
-        setTimeout(() => btn.innerHTML = '🔗 Copy link', 2000);
-      });
+  function showThanks() {
+    var t = document.getElementById('thanks');
+    t.classList.add('show');
+    t.scrollIntoView({ block: 'start' });
+  }
+
+  // Where did this visit come from?
+  var src = null;
+  try { src = new URLSearchParams(window.location.search).get('src'); } catch (e) {}
+  if (src) {
+    if (src.indexOf('heroes-shared') === 0) { track('Passed It On', { edition: EDITION, via: 'email' }); showThanks(); }
+    else if (src === 'share') { track('Share Landing', { edition: EDITION }); }
+    else { track('Email Click', { edition: EDITION, src: src }); }
+  }
+
+  // "I passed it on" button on the page
+  var passed = document.getElementById('passedOn');
+  passed.addEventListener('click', function () {
+    track('Passed It On', { edition: EDITION, via: 'page' });
+    passed.disabled = true;
+    passed.textContent = '💜 Thank you, counted';
+  });
+
+  // Copy helpers
+  function copy(text, btn, done) {
+    function ok() { var o = btn.textContent; btn.textContent = done; setTimeout(function () { btn.textContent = o; }, 2200); }
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(text).then(ok, function () { fallback(); });
+    } else { fallback(); }
+    function fallback() {
+      var ta = document.createElement('textarea'); ta.value = text; document.body.appendChild(ta);
+      ta.select(); try { document.execCommand('copy'); ok(); } catch (e) {} document.body.removeChild(ta);
     }
+  }
 
-    function copySaying(btn) {
-      const text = "I saw something about pain that made me think of you. Our local NHS has a free page with resources and a different way of looking at it — no referral needed. Thought it might be worth a look.";
-      navigator.clipboard.writeText(text).then(() => {
-        btn.textContent = '✓ Copied!';
-        setTimeout(() => btn.innerHTML = '📋 Copy these words', 2000);
-      });
-    }
-  </script>
+  var scriptBtn = document.getElementById('copyScript');
+  scriptBtn.addEventListener('click', function () {
+    var words = document.getElementById('script').textContent.replace(/^"|"$/g, '');
+    copy(words, scriptBtn, '✓ Copied');
+    track('Script Copied', { edition: EDITION });
+  });
 
+  // Share buttons
+  var wa = document.getElementById('shareWhatsApp');
+  wa.href = 'https://wa.me/?text=' + encodeURIComponent(SHARE_TEXT + SHARE_URL);
+  wa.addEventListener('click', function () { track('Share', { edition: EDITION, method: 'whatsapp' }); });
+
+  var em = document.getElementById('shareEmail');
+  em.href = 'mailto:?subject=' + encodeURIComponent('A cancer support group in Weymouth') + '&body=' + encodeURIComponent(SHARE_TEXT + SHARE_URL);
+  em.addEventListener('click', function () { track('Share', { edition: EDITION, method: 'email' }); });
+
+  var cl = document.getElementById('shareCopy');
+  cl.addEventListener('click', function () { copy(SHARE_URL, cl, '✓ Link copied'); track('Share', { edition: EDITION, method: 'copy' }); });
+
+  // Outbound link to the PCN page
+  document.querySelectorAll('[data-track]').forEach(function (a) {
+    a.addEventListener('click', function () { track(a.getAttribute('data-track'), { edition: EDITION }); });
+  });
+
+  // Gentle reveal on scroll
+  var els = document.querySelectorAll('.reveal');
+  if ('IntersectionObserver' in window) {
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } });
+    }, { threshold: 0.12 });
+    els.forEach(function (el) { io.observe(el); });
+  } else { els.forEach(function (el) { el.classList.add('in'); }); }
+})();
+</script>
 </body>
 </html>
